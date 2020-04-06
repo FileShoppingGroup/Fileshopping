@@ -13,10 +13,12 @@
 
 Route::get('/', 'IndexController@index');
 Auth::routes();
+Route::get('/userpanel', 'admin\UserController@userPanel')->name('userpanel');
+Route::group(['middleware'=>['auth','UserLevel']],function(){
+  Route::get('/home', 'HomeController@index')->name('home');
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::group(['namespace'=>'admin','middleware'=>['auth'],'prefix'=>'/admin'],function(){
+Route::group(['namespace'=>'admin','middleware'=>['auth','UserLevel'],'prefix'=>'/admin'],function(){
   Route::resource('/product', 'ProductController');
   Route::resource('/role', 'RoleController');
   Route::resource('/user', 'UserController');
