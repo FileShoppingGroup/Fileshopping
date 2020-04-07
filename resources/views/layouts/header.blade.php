@@ -1,4 +1,4 @@
-favorite<!DOCTYPE html>
+<!DOCTYPE html>
 <html dir="rtl">
 <head>
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -261,16 +261,16 @@ favorite<!DOCTYPE html>
           <div class="navbar-header"> <span class="visible-xs visible-sm"> منو <b></b></span></div>
           <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-              <li><a class="home_link" title="خانه" href="index.html"><span>خانه</span></a></li>
+              <li><a class="home_link" title="خانه" href="{{ url('/') }}"><span>خانه</span></a></li>
               <li class="mega-menu dropdown"><a>دسته ها</a>
                 <div class="dropdown-menu">
                   <?php foreach ($categories as $category): ?>
-                    <div class="column col-lg-2 col-md-3"><a href="category.html">{{$category->fa_name}}</a>
+                    <div class="column col-lg-2 col-md-3"><a href="{{ route('cat.show',['cat'=>$category->id]) }}">{{$category->fa_name}}</a>
                       <div>
                         <ul>
                           <?php $cats = App\Category::where('chId', $category->id)->get(); ?>
                           <?php foreach ($cats as $cat): ?>
-                            <li><a href="category.html">{{$cat->fa_name}}<span>&rsaquo;</span></a>
+                            <li><a href="{{ route('cat.show',['cat'=>$cat->id]) }}">{{$cat->fa_name}}<span>&rsaquo;</span></a>
                               <div class="dropdown-menu">
                                 <ul>
                                   <li><a href="category.html">زیردسته ها</a></li>
@@ -314,7 +314,7 @@ favorite<!DOCTYPE html>
       </div>
     </div>
 
-    <div class="container">
+    <div id="container">
     <div class="container">
     <div class="row">
       <!-- Left Part Start-->
@@ -323,15 +323,15 @@ favorite<!DOCTYPE html>
         <div class="box-category">
           <ul id="cat_accordion">
             <?php foreach ($categories as $category): ?>
-              <li><a href="{{route('category.show', ['category'=>$category->id])}}">{{$category->fa_name}}</a> <span class="down"></span>
+              <li><a href="{{ route('cat.show',['cat'=>$category->id]) }}">{{$category->fa_name}}</a> <span class="down"></span>
                 <?php $cats = App\Category::where('chId', $category->id)->get(); ?>
                 <ul>
                   <?php foreach ($cats as $cat): ?>
-                    <li><a href="{{route('category.show', ['category'=>$cat->id])}}">{{$cat->fa_name}}</a> <span class="down"></span>
+                    <li><a href="{{ url('cat/'.$cat->id) }}">{{$cat->fa_name}}</a> <span class="down"></span>
                       <?php $pros = App\Product::where('category_id', $cat->id)->get(); ?>
                       <ul>
                         <?php foreach ($pros as $pro): ?>
-                          <li><a href="category.html">{{$pro->name}}</a></li>
+                          <li><a href="{{ url('pro/'.$pro->id) }}">{{$pro->name}}</a></li>
 
                         <?php endforeach; ?>
 
@@ -347,9 +347,9 @@ favorite<!DOCTYPE html>
         <div class="side-item">
           <?php foreach ($bestsellers as $bestseller): ?>
             <div class="product-thumb clearfix">
-              <div class="image" style="height:9vh;"><a href="product.html"><img src="/{{$bestseller->image}}" alt="{{$bestseller->name}}" title="{{$bestseller->name}}" class="img-responsive" /></a></div>
+              <div class="image" style="height:9vh;"><a href="{{ url('pro/'.$bestseller->id) }}"><img src="/{{$bestseller->image}}" alt="{{$bestseller->name}}" title="{{$bestseller->name}}" class="img-responsive" /></a></div>
               <div class="caption">
-                <h4><a href="product.html">{{$bestseller->name}}</a></h4>
+                <h4><a href="{{ url('pro/'.$bestseller->id) }}">{{$bestseller->name}}</a></h4>
                 <p class="price"><span class="price-new">{{(1-($bestseller->discount)/100)*$bestseller->price}} تومان</span> <span class="price-old">{{$bestseller->price}}</span> <span class="saving">{{$bestseller->discount}}%</span></p>
               </div>
             </div>
@@ -361,9 +361,9 @@ favorite<!DOCTYPE html>
         <div class="side-item">
           <?php foreach ($favorites as $favorite): ?>
             <div class="product-thumb clearfix">
-              <div class="image" style="height:9vh;"><a href="product.html"><img src="/{{$favorite->image}}" alt="{{$favorite->name}}" title="{{$favorite->name}}" class="img-responsive" /></a></div>
+              <div class="image" style="height:9vh;"><a href="{{ url('pro/'.$favorite->id) }}"><img src="/{{$favorite->image}}" alt="{{$favorite->name}}" title="{{$favorite->name}}" class="img-responsive" /></a></div>
               <div class="caption">
-                <h4><a href="product.html">{{$favorite->name}}</a></h4>
+                <h4><a href="{{ url('pro/'.$favorite->id) }}">{{$favorite->name}}</a></h4>
                 <p class="price"><span class="price-new">{{(1-($favorite->discount)/100)*$favorite->price}} تومان</span> <span class="price-old">{{$favorite->price}}</span> <span class="saving">{{$favorite->discount}}%</span></p>
               </div>
             </div>
@@ -394,12 +394,12 @@ favorite<!DOCTYPE html>
           <?php foreach ($newests as $newest): ?>
             <div class="product-thumb clearfix">
               <div class="image">
-                <a href="product.html">
+                <a href="{{ url('pro/'.$newest->id) }}">
                   <img src="/{{$newest->image}}" alt="{{$newest->name}}" title="{{$newest->name}}" class="img-responsive" />
                 </a>
               </div>
               <div class="caption">
-                <h4><a href="product.html">{{$newest->name}}</a></h4>
+                <h4><a href="{{ url('pro/'.$newest->id) }}">{{$newest->name}}</a></h4>
                 <p class="price"><span class="price-new">{{(1-($newest->discount)/100)*$newest->price}} تومان</span> <span class="price-old">{{$newest->price}}</span> <span class="saving">{{$newest->discount}}%</span></p>
                 <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> </div>
               </div>
