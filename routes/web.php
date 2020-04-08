@@ -13,7 +13,11 @@
 
 Route::get('/', 'IndexController@index');
 Auth::routes();
+
+
 Route::get('/userpanel', 'admin\UserController@userPanel')->name('userpanel');
+
+
 Route::group(['middleware'=>['auth','UserLevel']],function(){
   Route::get('/home', 'HomeController@index')->name('home');
 });
